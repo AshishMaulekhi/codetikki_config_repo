@@ -1,0 +1,68 @@
+# API Gateway Configuration - Development Environment
+# This file will be served by Config Server at:
+# http://localhost:8888/api-gateway/dev
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: api-gateway
+  
+  # Gateway Routes Configuration
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      routes:
+        - id: authentication-service
+          uri: http://localhost:8085/api
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - StripPrefix=1
+        
+        - id: profile-service
+          uri: http://localhost:8082/api
+          predicates:
+            - Path=/api/profile/**
+          filters:
+            - StripPrefix=1
+        
+        - id: employee-service
+          uri: http://localhost:8083/api
+          predicates:
+            - Path=/api/employee/**
+          filters:
+            - StripPrefix=1
+        
+        - id: admin-service
+          uri: http://localhost:8081/api
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - StripPrefix=1
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway: DEBUG
+    com.codetikki.gateway: DEBUG
+  
+  file:
+    name: logs/api-gateway.log
+    max-size: 10MB
+    max-history: 10
+
+# Actuator Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    health:
+      show-details: always
