@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3307/codetikki?useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 18081998
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:
