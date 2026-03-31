@@ -9,7 +9,7 @@ server:
 
 spring:
   application:
-    name: quiz-question-service
+    name: quiz-question
   
   # Database Configuration (MySQL)
   datasource:
